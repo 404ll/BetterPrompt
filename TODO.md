@@ -1,18 +1,18 @@
 # Better Prompt MVP 2.0 - 开发 TODO List
 
 ## Phase 0: 项目初始化 (Project Setup)
-- [ ] 在 `betterprompt` 目录下初始化 Next.js 15 (App Router, TypeScript, Tailwind CSS, src 目录)
-- [ ] 安装依赖：`zustand`, `immer`, `lucide-react`, `ai` (Vercel AI SDK), `dexie`
-- [ ] 配置基本目录结构：`src/components/ui`, `src/components/prompt-editor`, `src/lib/utils`
-- [ ] 初始化并在项目中集成 Shadcn UI
+- [x] 在 `betterprompt` 目录下初始化 Next.js 15 (App Router, TypeScript, Tailwind CSS, src 目录)
+- [x] 安装依赖：`zustand`, `immer`, `lucide-react`, `ai` (Vercel AI SDK), `dexie`
+- [x] 配置基本目录结构：`src/components/ui`, `src/components/prompt-editor`, `src/lib/utils`
+- [x] 初始化并在项目中集成 Shadcn UI
 
 ## Phase 1: 静态 UI 布局与页面搭建 (UI First)
 > **设计风格标注：极简工程风格，重点参考 Raycast / Notion 的 UI 体验（无框设计、细腻的毛玻璃与阴影、扁平化交互、流畅的微动效）。**
 
-- [ ] 构建应用主框架：顶部 Header (全局变量区) + 底部操作栏 (Run All, History)
-- [ ] 实现三列分栏布局 (Column Layout: 左侧编辑器 | 中间模型A | 右侧模型B)
-- [ ] 搭建左侧可视化块编辑器 (Visual Block Editor) 的静态组件 (包含 Checkbox 和文本区域)
-- [ ] 搭建中右侧模型运行区的静态组件 (模型选择下拉框、结果展示区)
+- [x] 构建应用主框架：顶部 Header (全局变量区) + 底部操作栏 (Run All, History)
+- [x] 实现三列分栏布局 (Column Layout: 左侧编辑器 | 中间模型A | 右侧模型B)
+- [x] 搭建左侧可视化块编辑器 (Visual Block Editor) 的静态组件 (包含 Checkbox 和文本区域)
+- [x] 搭建中右侧模型运行区的静态组件 (模型选择下拉框、结果展示区)
 
 ## Phase 2: 核心数据引擎与状态 (State & Logic)
 - [ ] 定义 Prompt 4-Pillars 类型接口 (`Role`, `Context`, `Input`, `Output`)
@@ -31,4 +31,4 @@
 - [ ] (输出侧 Diff) 在多模型对比下，高亮其文本回答之间的差异
 
 ---
-状态：**已创建，准备进入 Phase 0。**
+状态：**已完成 Phase 0 和 Phase 1 静态页面开发，准备进入 Phase 2。**
