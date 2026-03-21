@@ -2,61 +2,40 @@
 
 import Link from "next/link";
 import {
-  Sparkles,
+  PenLine,
   SlidersHorizontal,
-  BookTemplate,
-  ArrowRight,
-  Zap,
+  BookMarked,
+  ArrowUpRight,
   GitCompare,
   History,
   Layers,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 
-const features = [
+const pillars: {
+  title: string;
+  desc: string;
+  Icon: typeof PenLine;
+}[] = [
   {
-    icon: Zap,
     title: "一句话生成",
-    description: "输入简单描述，AI 自动生成结构化的高质量 Prompt",
+    desc: "从描述到结构化 Prompt，再进入工作台。",
+    Icon: PenLine,
   },
   {
-    icon: GitCompare,
-    title: "多模型对比",
-    description: "同时运行多个模型，对比输出差异，找到最佳方案",
+    title: "多模型对照",
+    desc: "并行跑不同模型，用输出反推提示词策略。",
+    Icon: GitCompare,
   },
   {
-    icon: History,
-    title: "版本管理",
-    description: "保存历史快照，随时回溯，追踪 Prompt 的演进过程",
+    title: "版本与 Diff",
+    desc: "快照整对象保存，对比差异，而非只看片段。",
+    Icon: History,
   },
   {
-    icon: Layers,
-    title: "4-Pillars 结构",
-    description: "Role、Context、Input、Output 四大支柱，构建专业 Prompt",
-  },
-];
-
-const quickActions = [
-  {
-    title: "一句话生成 Prompt",
-    description: "描述你的需求，AI 帮你生成专业的结构化 Prompt",
-    icon: Sparkles,
-    href: "/generate",
-    gradient: "from-violet-500 to-purple-600",
-  },
-  {
-    title: "调优工作台",
-    description: "编辑、测试、对比，打磨你的 Prompt 到完美",
-    icon: SlidersHorizontal,
-    href: "/playground",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    title: "浏览模板库",
-    description: "从精选模板开始，快速上手各种场景",
-    icon: BookTemplate,
-    href: "/templates",
-    gradient: "from-orange-500 to-amber-500",
+    title: "4-Pillars",
+    desc: "Role / Context / Input / Output，可审计、可迭代。",
+    Icon: Layers,
   },
 ];
 
@@ -64,90 +43,110 @@ export default function HomePage() {
   return (
     <AppShell>
       <div className="h-full overflow-auto">
-        <div className="mx-auto max-w-5xl px-6 py-12">
-          {/* Hero Section */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 rounded-full bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 text-sm font-medium text-violet-700 dark:text-violet-300 mb-6">
-              <Sparkles className="h-4 w-4" />
-              Prompt 工程工作台
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
-              打造更好的{" "}
-              <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                Prompt
-              </span>
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              从一句话描述到专业级 Prompt，从单模型测试到多模型对比。
-              <br />
-              Better Prompt 帮你系统化地创建、调优和管理 AI 提示词。
+        <div className="mx-auto max-w-5xl px-8 py-16 sm:px-10 sm:py-20">
+          <header className="mb-20 max-w-3xl">
+            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Prompt studio
             </p>
-          </div>
+            <h1 className="font-display text-[2.35rem] font-semibold leading-[1.12] tracking-tight text-foreground sm:text-5xl sm:leading-[1.08]">
+              把提示词当作
+              <span className="text-foreground/90">产品</span>
+              来设计。
+            </h1>
+            <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+              生成、编辑、对照、版本化——在同一套工作流里完成。
+              界面刻意克制：少装饰、多结构，让你专注在文本与模型行为。
+            </p>
+          </header>
 
-          {/* Quick Actions */}
-          <div className="grid gap-4 md:grid-cols-3 mb-16">
-            {quickActions.map((action) => (
-              <Link
-                key={action.href}
-                href={action.href}
-                className="group relative overflow-hidden rounded-2xl border bg-card p-6 transition-all hover:shadow-lg hover:border-violet-200 dark:hover:border-violet-800"
-              >
-                <div
-                  className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${action.gradient} mb-4`}
-                >
-                  <action.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  {action.title}
-                  <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {action.description}
+          <section className="mb-16 grid gap-3 sm:grid-cols-3">
+            <Link
+              href="/generate"
+              className="group relative flex flex-col justify-between border border-border/80 bg-card/80 px-5 py-4 shadow-sm transition-all hover:border-teal-600/35 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <PenLine className="h-5 w-5 text-teal-700/90 dark:text-teal-400/90" strokeWidth={1.5} />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              </div>
+              <div className="mt-6">
+                <h2 className="font-display text-lg font-semibold tracking-tight">
+                  生成
+                </h2>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  描述意图，得到可导入的结构化 Prompt。
                 </p>
-              </Link>
-            ))}
-          </div>
+              </div>
+            </Link>
 
-          {/* Features Grid */}
-          <div className="mb-16">
-            <h2 className="text-2xl font-semibold text-center mb-8">
-              核心功能
+            <Link
+              href="/playground"
+              className="group relative flex flex-col justify-between border border-border/80 bg-card/80 px-5 py-4 shadow-sm transition-all hover:border-teal-600/35 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <SlidersHorizontal
+                  className="h-5 w-5 text-teal-700/90 dark:text-teal-400/90"
+                  strokeWidth={1.5}
+                />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              </div>
+              <div className="mt-6">
+                <h2 className="font-display text-lg font-semibold tracking-tight">
+                  工作台
+                </h2>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  分块编辑、变量与多模型并行对比。
+                </p>
+              </div>
+            </Link>
+
+            <Link
+              href="/templates"
+              className="group relative flex flex-col justify-between border border-border/80 bg-card/80 px-5 py-4 shadow-sm transition-all hover:border-teal-600/35 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <BookMarked
+                  className="h-5 w-5 text-teal-700/90 dark:text-teal-400/90"
+                  strokeWidth={1.5}
+                />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              </div>
+              <div className="mt-6">
+                <h2 className="font-display text-lg font-semibold tracking-tight">
+                  模板
+                </h2>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  从常见场景起步，再按你的业务改写。
+                </p>
+              </div>
+            </Link>
+          </section>
+
+          <section className="border-t border-border/70 pt-14">
+            <h2 className="font-display text-lg font-semibold tracking-tight">
+              能力
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {features.map((feature) => (
-                <div
-                  key={feature.title}
-                  className="flex gap-4 rounded-xl border bg-card/50 p-5"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-900/30">
-                    <feature.icon className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <div className="mt-8 grid gap-10 sm:grid-cols-2">
+              {pillars.map((item) => (
+                <div key={item.title} className="flex gap-4">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded border border-border bg-background/80">
+                    <item.Icon className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h3 className="font-medium mb-1">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
+                    <h3 className="text-[15px] font-medium leading-snug">{item.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {item.desc}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
-          {/* CTA Section */}
-          <div className="text-center rounded-2xl bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30 p-8 border">
-            <h2 className="text-xl font-semibold mb-2">准备好开始了吗？</h2>
-            <p className="text-muted-foreground mb-6">
-              只需一句话，让 AI 帮你生成专业的 Prompt
+          <footer className="mt-20 border-t border-border/70 pt-10">
+            <p className="text-xs text-muted-foreground">
+              Better Prompt · 本地优先 · 演示模式可完全离线体验流程
             </p>
-            <Link
-              href="/generate"
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 px-6 py-3 text-sm font-medium text-white hover:from-violet-700 hover:to-purple-700 transition-all shadow-lg shadow-violet-500/25"
-            >
-              <Sparkles className="h-4 w-4" />
-              开始生成
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+          </footer>
         </div>
       </div>
     </AppShell>

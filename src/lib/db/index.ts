@@ -5,7 +5,9 @@ import {
   PromptBlock,
   ModelParameters,
   ModelId,
+  PromptVersionObject,
 } from "@/types/prompt";
+import { assemblePrompt } from "@/lib/utils/prompt-engine";
 
 export class BetterPromptDB extends Dexie {
   snapshots!: Table<PromptSnapshot>;
@@ -30,15 +32,31 @@ function generateId(): string {
 export async function saveSnapshot(
   blocks: PromptBlock[],
   variables: Record<string, string>,
-  title?: string
+  title?: string,
+  promptVersion?: PromptVersionObject
 ): Promise<string> {
   const id = generateId();
+  const builtPromptVersion: PromptVersionObject =
+    promptVersion ?? {
+      assembledPrompt: assemblePrompt(blocks, variables),
+      activeBlocks: blocks
+        .filter((b) => b.isActive)
+        .map((b) => ({
+          id: b.id,
+          type: b.type,
+          title: b.title,
+          content: b.content,
+        })),
+      variables: { ...variables },
+    };
+
   const snapshot: PromptSnapshot = {
     id,
     timestamp: Date.now(),
     blocks: JSON.parse(JSON.stringify(blocks)),
     variables: { ...variables },
     title,
+    promptVersion: builtPromptVersion,
   };
 
   await db.snapshots.add(snapshot);

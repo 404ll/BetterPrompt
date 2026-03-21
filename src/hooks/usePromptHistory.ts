@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { PromptSnapshot, PromptBlock } from "@/types/prompt";
+import { assemblePrompt } from "@/lib/utils/prompt-engine";
 
 export function usePromptHistory() {
   const [snapshots, setSnapshots] = useState<PromptSnapshot[]>([]);
@@ -41,7 +42,18 @@ export function usePromptHistory() {
     ) => {
       if (typeof window === "undefined") return "";
       const { saveSnapshot } = await import("@/lib/db");
-      const id = await saveSnapshot(blocks, variables, title);
+      const id = await saveSnapshot(blocks, variables, title, {
+        assembledPrompt: assemblePrompt(blocks, variables),
+        activeBlocks: blocks
+          .filter((b) => b.isActive)
+          .map((b) => ({
+            id: b.id,
+            type: b.type,
+            title: b.title,
+            content: b.content,
+          })),
+        variables: { ...variables },
+      });
       await loadSnapshots();
       return id;
     },

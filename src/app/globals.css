@@ -7,7 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -48,38 +49,41 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* 暖灰纸感背景，避免「纯白 AI 面板」同质化 */
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.18 0.02 265);
+  --card: oklch(1 0.002 85);
+  --card-foreground: oklch(0.18 0.02 265);
+  --popover: oklch(1 0.002 85);
+  --popover-foreground: oklch(0.18 0.02 265);
+  /* 主色：深板岩，偏工具感 */
+  --primary: oklch(0.22 0.03 265);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.96 0.006 85);
+  --secondary-foreground: oklch(0.22 0.02 265);
+  --muted: oklch(0.955 0.006 85);
+  --muted-foreground: oklch(0.48 0.02 265);
+  --accent: oklch(0.96 0.02 180);
+  --accent-foreground: oklch(0.22 0.04 180);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.9 0.008 85);
+  --input: oklch(0.92 0.008 85);
+  --ring: oklch(0.55 0.09 175);
   --chart-1: oklch(0.809 0.105 251.813);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+  /* 侧栏深色由组件类控制，此处保留 token 兼容 */
+  --sidebar: oklch(0.14 0.015 265);
+  --sidebar-foreground: oklch(0.92 0.01 85);
+  --sidebar-primary: oklch(0.62 0.12 175);
+  --sidebar-primary-foreground: oklch(0.14 0.015 265);
+  --sidebar-accent: oklch(0.2 0.02 265);
+  --sidebar-accent-foreground: oklch(0.95 0.01 85);
+  --sidebar-border: oklch(0.28 0.02 265);
+  --sidebar-ring: oklch(0.55 0.09 175);
 }
 
 .dark {
@@ -122,8 +126,27 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* 主内容区：极淡网格 + 柔光，偏「桌面工具」而非营销落地页 */
+@layer components {
+  .bp-main-surface {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(ellipse 120% 80% at 50% -20%, oklch(0.95 0.03 175 / 35%), transparent 55%),
+      linear-gradient(to bottom, oklch(1 0 0 / 55%), transparent 28rem),
+      radial-gradient(oklch(0.2 0.02 265 / 4%) 1px, transparent 1px);
+    background-size: auto, auto, 24px 24px;
+    background-attachment: fixed;
+  }
+
+  .font-display {
+    font-family: var(--font-display), ui-serif, Georgia, "Times New Roman", serif;
+    font-feature-settings: "liga" 1, "kern" 1;
   }
 }

@@ -8,9 +8,11 @@ interface AppShellProps {
 
 export default function AppShell({ children }: AppShellProps) {
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen overflow-hidden bg-zinc-950">
       <Sidebar />
-      <main className="flex-1 overflow-hidden">{children}</main>
+      <main className="bp-main-surface flex-1 overflow-hidden text-foreground">
+        {children}
+      </main>
     </div>
   );
 }

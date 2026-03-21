@@ -56,8 +56,8 @@ export default function ModelRunner({ modelConfigId }: ModelRunnerProps) {
     MODEL_OPTIONS.find((m) => m.value === model)?.label || model;
 
   return (
-    <div className="flex h-full flex-col bg-slate-50/50 dark:bg-zinc-950">
-      <div className="flex h-12 shrink-0 items-center justify-between border-b px-4 bg-background">
+    <div className="flex h-full flex-col bg-transparent">
+      <div className="flex h-12 shrink-0 items-center justify-between border-b border-border/80 bg-card/40 px-4 backdrop-blur-sm">
         <Select value={model} onValueChange={handleModelChange}>
           <SelectTrigger className="w-[180px] h-8 text-xs font-semibold focus:ring-0">
             <SelectValue placeholder="请选择模型..." />
@@ -87,7 +87,7 @@ export default function ModelRunner({ modelConfigId }: ModelRunnerProps) {
           )}
 
           {isLoading ? (
-            <span className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 font-medium">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-teal-800 dark:text-teal-300/90">
               <Loader2 className="h-3 w-3 animate-spin" />
               生成中...
             </span>
@@ -122,7 +122,7 @@ export default function ModelRunner({ modelConfigId }: ModelRunnerProps) {
             <p className="text-muted-foreground italic text-sm mt-32 text-center">
               {modelLabel} 正在等待提示词执行...
               <br />
-              点击"全部运行"来观察模型表现。
+              点击“全部运行”来观察模型表现。
             </p>
           </div>
         )}

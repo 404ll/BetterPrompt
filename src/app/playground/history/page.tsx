@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -18,6 +18,7 @@ import { usePromptHistory } from "@/hooks/usePromptHistory";
 import { usePromptStore } from "@/store/promptStore";
 import { PromptSnapshot } from "@/types/prompt";
 import { computeSnapshotDiff, TextDiff } from "@/lib/utils/diff-engine";
+import { assemblePrompt } from "@/lib/utils/prompt-engine";
 
 function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp);
@@ -89,21 +90,30 @@ export default function HistoryPage() {
   const toggleBlockActive = usePromptStore((state) => state.toggleBlockActive);
   const updateVariable = usePromptStore((state) => state.updateVariable);
 
-  useEffect(() => {
-    if (snapshots.length === 0) return;
-    if (!targetId) setTargetId(snapshots[0].id);
-    if (!baseId) setBaseId(snapshots[1]?.id ?? snapshots[0].id);
-  }, [snapshots, baseId, targetId]);
+  const effectiveTargetId = targetId ?? snapshots[0]?.id ?? null;
+  const effectiveBaseId = baseId ?? snapshots[1]?.id ?? snapshots[0]?.id ?? null;
 
-  const baseSnapshot = snapshots.find((s) => s.id === baseId) ?? null;
-  const targetSnapshot = snapshots.find((s) => s.id === targetId) ?? null;
+  const baseSnapshot = snapshots.find((s) => s.id === effectiveBaseId) ?? null;
+  const targetSnapshot = snapshots.find((s) => s.id === effectiveTargetId) ?? null;
   const currentSnapshot: PromptSnapshot = useMemo(
     () => ({
       id: "__current__",
-      timestamp: Date.now(),
+      timestamp: 0,
       blocks,
       variables,
       title: "当前未保存状态",
+      promptVersion: {
+        assembledPrompt: assemblePrompt(blocks, variables),
+        activeBlocks: blocks
+          .filter((b) => b.isActive)
+          .map((b) => ({
+            id: b.id,
+            type: b.type,
+            title: b.title,
+            content: b.content,
+          })),
+        variables,
+      },
     }),
     [blocks, variables]
   );
@@ -141,18 +151,18 @@ export default function HistoryPage() {
   return (
     <AppShell>
       <div className="flex h-full flex-col">
-        <header className="h-14 shrink-0 border-b px-4 flex items-center justify-between">
+        <header className="flex h-14 shrink-0 items-center justify-between border-b border-border/80 bg-card/50 px-4 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             <Link
               href="/playground"
-              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+              className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
               返回工作台
             </Link>
-            <div className="h-4 w-px bg-border" />
-            <h1 className="font-semibold flex items-center gap-2">
-              <History className="h-4 w-4" />
+            <div className="h-4 w-px bg-border/80" />
+            <h1 className="font-display flex items-center gap-2 text-[15px] font-semibold tracking-tight">
+              <History className="h-4 w-4 opacity-80" strokeWidth={1.5} />
               历史对比
             </h1>
           </div>
@@ -181,8 +191,10 @@ export default function HistoryPage() {
                       key={snapshot.id}
                       className={cn(
                         "rounded-lg border p-3",
-                        targetId === snapshot.id && "border-blue-300 bg-blue-50/40 dark:bg-blue-900/20",
-                        baseId === snapshot.id && "border-amber-300 bg-amber-50/40 dark:bg-amber-900/20"
+                        effectiveTargetId === snapshot.id &&
+                          "border-blue-300 bg-blue-50/40 dark:bg-blue-900/20",
+                        effectiveBaseId === snapshot.id &&
+                          "border-amber-300 bg-amber-50/40 dark:bg-amber-900/20"
                       )}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -208,7 +220,7 @@ export default function HistoryPage() {
                           onClick={() => setBaseId(snapshot.id)}
                           className={cn(
                             "text-xs rounded px-2 py-1 border",
-                            baseId === snapshot.id
+                            effectiveBaseId === snapshot.id
                               ? "bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300"
                               : "hover:bg-muted"
                           )}
@@ -219,7 +231,7 @@ export default function HistoryPage() {
                           onClick={() => setTargetId(snapshot.id)}
                           className={cn(
                             "text-xs rounded px-2 py-1 border",
-                            targetId === snapshot.id
+                            effectiveTargetId === snapshot.id
                               ? "bg-blue-100 text-blue-700 border-blue-300 dark:bg-blue-900/30 dark:text-blue-300"
                               : "hover:bg-muted"
                           )}

@@ -146,16 +146,16 @@ export default function Footer() {
       <div className="flex items-center gap-3">
         <Link
           href="/playground/history"
-          className="flex items-center gap-2 rounded-md border bg-background px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+          className="flex items-center gap-2 rounded-md border border-border/90 bg-card/80 px-4 py-2 text-sm font-medium text-foreground/90 shadow-sm transition-colors hover:border-teal-600/30 hover:bg-background"
         >
-          <History className="h-4 w-4" />
-          历史记录
+          <History className="h-4 w-4 opacity-80" strokeWidth={1.5} />
+          历史
         </Link>
 
         {isRunningAll ? (
           <button
             onClick={handleStopAll}
-            className="flex items-center gap-2 rounded-md bg-red-600 px-6 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors shadow-sm"
+            className="flex items-center gap-2 rounded-md border border-red-200 bg-red-600 px-6 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-700"
           >
             <Square fill="currentColor" className="h-4 w-4" />
             停止
@@ -164,7 +164,7 @@ export default function Footer() {
           <button
             onClick={handleRunAll}
             disabled={isRunningAll}
-            className="flex items-center gap-2 rounded-md bg-zinc-900 px-6 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm disabled:opacity-50"
+            className="flex items-center gap-2 rounded-md bg-zinc-900 px-6 py-2 text-sm font-medium text-zinc-50 shadow-sm transition-colors hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
           >
             <Play fill="currentColor" className="h-4 w-4" />
             全部运行

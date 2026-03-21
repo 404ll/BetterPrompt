@@ -153,15 +153,15 @@ export default function TemplatesPage() {
       <div className="h-full overflow-auto">
         <div className="mx-auto max-w-5xl px-6 py-8">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500">
-                <BookTemplate className="h-5 w-5 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold">Prompt 模板库</h1>
-            </div>
-            <p className="text-muted-foreground">
-              精选常用场景模板，一键导入即可使用
+          <div className="mb-10">
+            <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              Library
+            </p>
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-[2rem]">
+              模板库
+            </h1>
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+              作为起点导入工作台，再按你的业务改写变量与约束。
             </p>
           </div>
 
@@ -173,7 +173,7 @@ export default function TemplatesPage() {
               placeholder="搜索模板..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-10 pl-10 pr-4 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500"
+              className="h-10 w-full rounded-lg border border-border/90 bg-card/80 pl-10 pr-4 text-sm shadow-sm focus:border-teal-600/45 focus:outline-none focus:ring-2 focus:ring-teal-600/15"
             />
           </div>
 
@@ -186,8 +186,8 @@ export default function TemplatesPage() {
                 className={cn(
                   "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors",
                   selectedCategory === category.id
-                    ? "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted"
+                    ? "border border-teal-600/35 bg-teal-50/80 text-foreground shadow-sm dark:border-teal-800/50 dark:bg-teal-950/30 dark:text-teal-100/90"
+                    : "border border-transparent bg-background/70 text-muted-foreground hover:border-border hover:bg-card/80"
                 )}
               >
                 <category.icon className="h-4 w-4" />
@@ -201,20 +201,22 @@ export default function TemplatesPage() {
             {filteredTemplates.map((template) => (
               <div
                 key={template.id}
-                className="group rounded-xl border bg-card p-5 hover:shadow-md hover:border-violet-200 dark:hover:border-violet-800 transition-all"
+                className="group rounded-xl border border-border/90 bg-card/90 p-5 shadow-sm transition-all hover:border-teal-600/25 hover:shadow-md"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30">
-                    <template.icon className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-background/80">
+                    <template.icon className="h-6 w-6 text-teal-800/90 dark:text-teal-300/85" strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold mb-1">{template.name}</h3>
+                    <h3 className="mb-1 font-display text-[17px] font-semibold tracking-tight">
+                      {template.name}
+                    </h3>
                     <p className="text-sm text-muted-foreground mb-3">
                       {template.description}
                     </p>
                     <button
                       onClick={() => handleUseTemplate(template)}
-                      className="inline-flex items-center gap-1 text-sm font-medium text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-teal-800 hover:text-teal-900 dark:text-teal-300/90 dark:hover:text-teal-200"
                     >
                       使用此模板
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

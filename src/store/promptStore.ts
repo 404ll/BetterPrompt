@@ -3,8 +3,6 @@ import { immer } from "zustand/middleware/immer";
 import {
   PromptBlock,
   ModelConfig,
-  ModelId,
-  ModelParameters,
   DEFAULT_PARAMETERS,
 } from "@/types/prompt";
 import { extractVariables, assemblePrompt } from "@/lib/utils/prompt-engine";

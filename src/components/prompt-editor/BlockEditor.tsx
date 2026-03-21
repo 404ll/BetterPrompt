@@ -12,10 +12,14 @@ export default function BlockEditor() {
   const toggleBlockActive = usePromptStore((state) => state.toggleBlockActive);
 
   return (
-    <div className="flex h-full flex-col border-r bg-background">
-      <div className="flex h-12 shrink-0 items-center justify-between border-b px-4">
-        <h2 className="text-sm font-semibold tracking-tight">提示词策略</h2>
-        <span className="text-xs text-muted-foreground">模块</span>
+    <div className="flex h-full flex-col border-r border-border/80 bg-background/50">
+      <div className="flex h-12 shrink-0 items-center justify-between border-b border-border/80 bg-card/40 px-4 backdrop-blur-sm">
+        <h2 className="font-display text-sm font-semibold tracking-tight text-foreground/95">
+          策略
+        </h2>
+        <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
+          Blocks
+        </span>
       </div>
 
       <ScrollArea className="flex-1 px-4 py-4">
@@ -25,9 +29,12 @@ export default function BlockEditor() {
             <div 
               key={block.id} 
               className={cn(
-                "flex flex-col gap-2 rounded-lg border bg-card p-4 shadow-sm relative group transition-colors",
-                block.type === 'input' && "border-primary/20 shadow-inner",
-                block.isActive ? "hover:border-zinc-300" : "opacity-60 bg-muted/30"
+                "group/card flex flex-col gap-2 rounded-lg border border-border/90 bg-card/90 p-4 shadow-sm transition-colors",
+                block.type === "input" &&
+                  "border-teal-600/25 shadow-[inset_0_1px_0_0_oklch(0.62_0.12_175_/_12%)]",
+                block.isActive
+                  ? "hover:border-border"
+                  : "opacity-60 bg-muted/25"
               )}
             >
               <div className="flex items-center gap-3">

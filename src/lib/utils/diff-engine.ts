@@ -201,10 +201,26 @@ export function computeSnapshotDiff(
   oldSnapshot: PromptSnapshot,
   newSnapshot: PromptSnapshot
 ): SnapshotDiff {
-  const blockDiffs = computeBlockDiff(oldSnapshot.blocks, newSnapshot.blocks);
+  const oldBlocks = oldSnapshot.promptVersion
+    ? oldSnapshot.promptVersion.activeBlocks.map((b) => ({
+        ...b,
+        isActive: true,
+      }))
+    : oldSnapshot.blocks;
+  const newBlocks = newSnapshot.promptVersion
+    ? newSnapshot.promptVersion.activeBlocks.map((b) => ({
+        ...b,
+        isActive: true,
+      }))
+    : newSnapshot.blocks;
 
-  const oldVars = new Set(Object.keys(oldSnapshot.variables));
-  const newVars = new Set(Object.keys(newSnapshot.variables));
+  const blockDiffs = computeBlockDiff(oldBlocks, newBlocks);
+
+  const oldVariables = oldSnapshot.promptVersion?.variables ?? oldSnapshot.variables;
+  const newVariables = newSnapshot.promptVersion?.variables ?? newSnapshot.variables;
+
+  const oldVars = new Set(Object.keys(oldVariables));
+  const newVars = new Set(Object.keys(newVariables));
 
   const added = [...newVars].filter((v) => !oldVars.has(v));
   const removed = [...oldVars].filter((v) => !newVars.has(v));
@@ -213,12 +229,12 @@ export function computeSnapshotDiff(
   for (const name of oldVars) {
     if (
       newVars.has(name) &&
-      oldSnapshot.variables[name] !== newSnapshot.variables[name]
+      oldVariables[name] !== newVariables[name]
     ) {
       modified.push({
         name,
-        oldValue: oldSnapshot.variables[name],
-        newValue: newSnapshot.variables[name],
+        oldValue: oldVariables[name],
+        newValue: newVariables[name],
       });
     }
   }

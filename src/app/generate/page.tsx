@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Sparkles,
+  PenLine,
   Loader2,
   ArrowRight,
   Wand2,
@@ -156,15 +156,15 @@ export default function GeneratePage() {
       <div className="h-full overflow-auto">
         <div className="mx-auto max-w-4xl px-6 py-8">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600">
-                <Sparkles className="h-5 w-5 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold">一句话生成 Prompt</h1>
-            </div>
-            <p className="text-muted-foreground">
-              描述你想要的 AI 助手，我们帮你生成专业的结构化 Prompt
+          <div className="mb-10">
+            <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              Generate
+            </p>
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-[2rem]">
+              从一句话到结构化 Prompt
+            </h1>
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+              写出意图与约束，输出可直接导入工作台的四个模块。
             </p>
           </div>
 
@@ -178,7 +178,7 @@ export default function GeneratePage() {
                 placeholder="例如：帮我写一个代码审查助手，能够分析代码质量并给出改进建议..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="min-h-[120px] text-base"
+                className="min-h-[120px] border-border/90 bg-card/80 text-base shadow-sm"
               />
             </div>
 
@@ -188,7 +188,7 @@ export default function GeneratePage() {
                 <button
                   key={example}
                   onClick={() => setDescription(example)}
-                  className="text-xs px-3 py-1.5 rounded-full border bg-muted/50 hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                  className="rounded-full border border-border/80 bg-background/80 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-teal-600/25 hover:text-foreground"
                 >
                   {example.slice(0, 25)}...
                 </button>
@@ -206,17 +206,17 @@ export default function GeneratePage() {
                     key={option.value}
                     onClick={() => setStyle(option.value)}
                     className={cn(
-                      "flex-1 flex items-center gap-3 rounded-lg border p-4 transition-all",
+                      "flex flex-1 items-center gap-3 rounded-lg border border-border/90 bg-card/60 p-4 transition-all",
                       style === option.value
-                        ? "border-violet-500 bg-violet-50 dark:bg-violet-950/30"
-                        : "hover:border-muted-foreground/30"
+                        ? "border-teal-600/45 bg-teal-50/50 shadow-sm dark:border-teal-700/40 dark:bg-teal-950/25"
+                        : "hover:border-border"
                     )}
                   >
                     <option.icon
                       className={cn(
                         "h-5 w-5",
                         style === option.value
-                          ? "text-violet-600"
+                          ? "text-teal-800 dark:text-teal-300/90"
                           : "text-muted-foreground"
                       )}
                     />
@@ -224,7 +224,8 @@ export default function GeneratePage() {
                       <div
                         className={cn(
                           "font-medium text-sm",
-                          style === option.value && "text-violet-700 dark:text-violet-300"
+                          style === option.value &&
+                            "text-foreground"
                         )}
                       >
                         {option.label}
@@ -242,7 +243,7 @@ export default function GeneratePage() {
             <Button
               onClick={handleGenerate}
               disabled={!description.trim() || isGenerating}
-              className="w-full h-12 text-base bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+              className="h-12 w-full text-base font-medium shadow-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
             >
               {isGenerating ? (
                 <>
@@ -251,7 +252,7 @@ export default function GeneratePage() {
                 </>
               ) : (
                 <>
-                  <Sparkles className="h-5 w-5 mr-2" />
+                  <PenLine className="mr-2 h-5 w-5" strokeWidth={1.75} />
                   生成 Prompt
                 </>
               )}
@@ -260,8 +261,8 @@ export default function GeneratePage() {
 
           {/* Output Section */}
           {(isGenerating || generatedPrompt) && (
-            <div className="rounded-xl border bg-card overflow-hidden">
-              <div className="flex items-center justify-between border-b px-4 py-3 bg-muted/30">
+            <div className="overflow-hidden rounded-xl border border-border/90 bg-card/90 shadow-sm">
+              <div className="flex items-center justify-between border-b border-border/80 bg-muted/25 px-4 py-3">
                 <h2 className="font-medium">生成结果</h2>
                 {generatedPrompt && (
                   <div className="flex items-center gap-2">
@@ -281,7 +282,7 @@ export default function GeneratePage() {
                     <Button
                       size="sm"
                       onClick={handleUseInPlayground}
-                      className="h-8 bg-violet-600 hover:bg-violet-700"
+                      className="h-8 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900"
                     >
                       <SlidersHorizontal className="h-4 w-4 mr-1" />
                       在工作台中使用
@@ -299,7 +300,7 @@ export default function GeneratePage() {
                 ) : generatedPrompt ? (
                   <>
                     <div className="space-y-1">
-                      <div className="text-xs font-medium text-violet-600 uppercase tracking-wide">
+                      <div className="text-[11px] font-medium uppercase tracking-wide text-teal-800/90 dark:text-teal-300/85">
                         Role · 角色定义
                       </div>
                       <div className="rounded-lg bg-muted/50 p-3 text-sm">
@@ -307,7 +308,7 @@ export default function GeneratePage() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <div className="text-xs font-medium text-blue-600 uppercase tracking-wide">
+                      <div className="text-[11px] font-medium uppercase tracking-wide text-foreground/70">
                         Context · 背景信息
                       </div>
                       <div className="rounded-lg bg-muted/50 p-3 text-sm">
@@ -315,7 +316,7 @@ export default function GeneratePage() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <div className="text-xs font-medium text-green-600 uppercase tracking-wide">
+                      <div className="text-[11px] font-medium uppercase tracking-wide text-foreground/70">
                         Input · 输入格式
                       </div>
                       <div className="rounded-lg bg-muted/50 p-3 text-sm font-mono">
@@ -323,7 +324,7 @@ export default function GeneratePage() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <div className="text-xs font-medium text-orange-600 uppercase tracking-wide">
+                      <div className="text-[11px] font-medium uppercase tracking-wide text-foreground/70">
                         Output · 输出约束
                       </div>
                       <div className="rounded-lg bg-muted/50 p-3 text-sm">

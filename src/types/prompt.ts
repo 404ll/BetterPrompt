@@ -40,6 +40,18 @@ export interface PromptSnapshot {
   blocks: PromptBlock[];
   variables: Record<string, string>;
   title?: string;
+  promptVersion?: PromptVersionObject;
+}
+
+export interface PromptVersionObject {
+  assembledPrompt: string;
+  activeBlocks: Array<{
+    id: string;
+    type: BlockType;
+    title: string;
+    content: string;
+  }>;
+  variables: Record<string, string>;
 }
 
 export interface ModelResponse {
